@@ -45,6 +45,21 @@ public class SimpleCalculator extends HttpServlet {
 			result = addTwoNumbers(numbers[0], numbers[1]);
 			break;
 		}
+		case "-":
+		{
+			result = subTwoNumbers(numbers[0], numbers[1]);
+			break;
+		}
+		case "*":
+		{
+			result = multiplyTwoNumbers(numbers[0], numbers[1]);
+			break;
+		}
+		case "/":
+		{
+			result = divideTwoNumbers(numbers[0], numbers[1]);
+			break;
+		}
 		default:
 			break;
 		}
@@ -53,6 +68,20 @@ public class SimpleCalculator extends HttpServlet {
 	
 	private String addTwoNumbers(int i, int j) {
 		return String.valueOf(i + j);
+	}
+	
+	private String subTwoNumbers(int i, int j) {
+		return String.valueOf(i - j);
+	}
+	
+	private String multiplyTwoNumbers(int i, int j) {
+		return String.valueOf(i * j);
+	}
+	
+	private String divideTwoNumbers(int i, int j) {
+		if(j == 0)
+			return "Division by 0 is not suported operation";
+		return String.valueOf(i / j);
 	}
 
 	private void sendResponse(HttpServletRequest request, HttpServletResponse response, String data) {

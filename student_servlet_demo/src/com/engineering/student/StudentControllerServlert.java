@@ -40,6 +40,12 @@ public class StudentControllerServlert extends HttpServlet {
 		case "ADD":
 			addStudent(request, response);
 			break;
+		case "LOAD":
+			loadStudent(request, response);
+			break;
+		case "UPDATE":
+			updateStudent(request, response);
+			break;
 		case "LIST":
 			listStudents(request, response);
 			break;
@@ -56,6 +62,37 @@ public class StudentControllerServlert extends HttpServlet {
 		Student student = new Student(name, lastName, email);
 		try {
 			studentDao.saveStudentToDatabase(student);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		listStudents(request, response);
+	}
+	
+	private void loadStudent(HttpServletRequest request, HttpServletResponse response) {
+		int id = Integer.parseInt(request.getParameter("studentId"));
+		try {
+			Student student = studentDao.loadStudent(id);
+			request.setAttribute("selected_student", student);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/update-student-form.jsp");
+			dispatcher.forward(request, response);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ServletException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void updateStudent(HttpServletRequest request, HttpServletResponse response) {
+		int id = Integer.parseInt(request.getParameter("studentId"));
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String email = request.getParameter("email");
+		Student s = new Student(firstName, lastName, email);
+		s.setId(id);
+		try {
+			studentDao.updateStudent(s);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

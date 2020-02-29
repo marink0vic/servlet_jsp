@@ -6,9 +6,8 @@ public class Student {
 	private String lastName;
 	private String email;
 	
-	public Student(int id, String fname, String lname, String email) {
-		this(fname,lname,email);
-		this.id = id;
+	public Student() {
+		
 	}
 	
 	public Student(String fname, String lname, String email) {

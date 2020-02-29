@@ -57,6 +57,47 @@ public class StudentDao {
 		
 	}
 	
+	public Student loadStudent(int id) throws SQLException {
+		Connection connection = null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		Student student = new Student();
+		try {
+			String query = "SELECT * FROM student WHERE id = ?";
+			connection = dataSource.getConnection();
+			st = connection.prepareStatement(query);
+			st.setInt(1, id);
+			rs = st.executeQuery();
+			if (rs.next()) {
+				student.setId(id);
+				student.setFirstName(rs.getString("first_name"));
+				student.setLastName(rs.getString("last_name"));
+				student.setEmail(rs.getString("email"));
+			}
+		} finally {
+			  close(connection, st, rs);
+		}
+		return student;
+	}
+	
+	public void updateStudent(Student s) throws SQLException {
+		Connection connection = null;
+		PreparedStatement st = null;
+		try {
+			String query = "UPDATE student SET first_name = ?, last_name = ?, email = ? WHERE id = ?";
+			connection = dataSource.getConnection();
+			st = connection.prepareStatement(query);
+			st.setString(1, s.getFirstName());
+			st.setString(2, s.getLastName());
+			st.setString(3, s.getEmail());
+			st.setInt(4, s.getId());
+			st.executeUpdate();
+		} finally {
+			  close(connection, st, null);
+		}
+		
+	}
+	
 	private void close(Connection connection, PreparedStatement st, ResultSet rs) {
 		try {
 			if (rs != null) rs.close();

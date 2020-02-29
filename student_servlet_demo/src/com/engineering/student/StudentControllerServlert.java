@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 
-@WebServlet("/StudentControllerServlert")
+@WebServlet("/StudentControllerServlet")
 public class StudentControllerServlert extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private StudentDao studentDao;
@@ -32,7 +32,33 @@ public class StudentControllerServlert extends HttpServlet {
 		}
 	}
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String action = request.getParameter("command");
+		if (action == null) action = "LIST";
+		switch (action) {
+		case "ADD":
+			addStudent(request, response);
+			break;
+		case "LIST":
+			listStudents(request, response);
+			break;
+		default:
+			listStudents(request, response);
+		}
+		
+	}
+
+	private void addStudent(HttpServletRequest request, HttpServletResponse response) {
+		String name = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String email = request.getParameter("email");
+		Student student = new Student(name, lastName, email);
+		try {
+			studentDao.saveStudentToDatabase(student);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		listStudents(request, response);
 	}
 

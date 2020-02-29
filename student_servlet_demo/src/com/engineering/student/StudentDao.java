@@ -39,6 +39,24 @@ public class StudentDao {
 		return students;
 	}
 	
+	public void saveStudentToDatabase(Student student) throws SQLException {
+		Connection connection = null;
+		PreparedStatement st = null;
+		
+		try {
+			String query = "INSERT INTO student(first_name, last_name, email) VALUES(?, ?, ?)";
+			connection = dataSource.getConnection();
+			st = connection.prepareStatement(query);
+			st.setString(1, student.getFirstName());
+			st.setString(2, student.getLastName());
+			st.setString(3, student.getEmail());
+			st.executeUpdate();
+		} finally {
+			  close(connection, st, null);
+		}
+		
+	}
+	
 	private void close(Connection connection, PreparedStatement st, ResultSet rs) {
 		try {
 			if (rs != null) rs.close();
@@ -50,4 +68,6 @@ public class StudentDao {
 		}
 		
 	}
+
+	
 }

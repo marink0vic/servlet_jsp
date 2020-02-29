@@ -98,6 +98,20 @@ public class StudentDao {
 		
 	}
 	
+	public void deleteStudent(int id) throws SQLException {
+		Connection connection = null;
+		PreparedStatement st = null;
+		try {
+			String query = "DELETE FROM student WHERE id = ?";
+			connection = dataSource.getConnection();
+			st = connection.prepareStatement(query);
+			st.setInt(1, id);
+			st.executeUpdate();
+		} finally {
+			close(connection, st, null);
+		}
+	}
+	
 	private void close(Connection connection, PreparedStatement st, ResultSet rs) {
 		try {
 			if (rs != null) rs.close();
@@ -110,5 +124,4 @@ public class StudentDao {
 		
 	}
 
-	
 }

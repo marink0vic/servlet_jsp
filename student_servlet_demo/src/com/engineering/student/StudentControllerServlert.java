@@ -49,6 +49,9 @@ public class StudentControllerServlert extends HttpServlet {
 		case "LIST":
 			listStudents(request, response);
 			break;
+		case "DELETE":
+			deleteStudent(request, response);
+			break;
 		default:
 			listStudents(request, response);
 		}
@@ -93,6 +96,16 @@ public class StudentControllerServlert extends HttpServlet {
 		s.setId(id);
 		try {
 			studentDao.updateStudent(s);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		listStudents(request, response);
+	}
+	
+	private void deleteStudent(HttpServletRequest request, HttpServletResponse response) {
+		int id = Integer.parseInt(request.getParameter("studentId"));
+		try {
+			studentDao.deleteStudent(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

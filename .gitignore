@@ -1,0 +1,11 @@
+/.metadata/
+
+/Servers/
+/RemoteSystemsTempFiles/
+*.class
+
+# Eclipse
+.classpath
+.project
+.settings/
+/.recommenders/

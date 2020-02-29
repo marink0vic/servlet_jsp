@@ -16,7 +16,7 @@ public class StudentDao {
 		this.dataSource = dataSource;
 	}
 	
-	public List<Student> getStudents() throws SQLException {
+	public List<Student> getStudentsFromDatabase() throws SQLException {
 		List<Student> students = new ArrayList<>();
 		Connection connection = null;
 		PreparedStatement st = null;

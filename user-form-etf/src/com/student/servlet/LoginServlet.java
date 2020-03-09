@@ -46,7 +46,6 @@ public class LoginServlet extends HttpServlet {
 		User user = new User();
 		user.setUsername(username);
 		user.setPassword(password);
-		session.setAttribute("user", user);
 		if (username.isEmpty() || password.isEmpty()) {
 			message = "You didn't fill all fields";
 			request.setAttribute("message", message);
@@ -60,6 +59,8 @@ public class LoginServlet extends HttpServlet {
 				message = "Not valid data. Try again";
 				request.setAttribute("message", message);
 				address = "index.jsp";
+			} else {
+				session.setAttribute("user", user);
 			}
 		} catch (SQLException e) {
 			session.invalidate();
